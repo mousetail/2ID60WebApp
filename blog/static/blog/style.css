@@ -10,3 +10,7 @@ body {
 .flex li {
 	display: block;
 }
+
+.validationError {
+	color: red;
+}
