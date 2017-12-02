@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block heading %}Login{% endblock %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+  <h2>Login</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+	<ul class="flex">
+    <li><button type="submit" id="loginButton">Login</button></li>
+	<li><button type="submit" id="registerButton">Register</button></li>
+	</ul>
+  </form>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'scripts/login.js' %}" defer></script>
+{% endblock %}

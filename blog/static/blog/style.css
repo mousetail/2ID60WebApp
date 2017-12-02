@@ -1,0 +1,12 @@
+body {
+	background-color: white;
+	font-family: sans-serif;
+}
+
+.flex {
+	display: flex;
+}
+
+.flex li {
+	display: block;
+}
