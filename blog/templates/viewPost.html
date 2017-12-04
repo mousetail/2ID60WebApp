@@ -10,15 +10,21 @@
     <small>Author:</small><br/>
     <span class="authorname">{{ authorname }}</span><br/>
     <small>Date published:</small><br/>
-    <span class="pubdate">{{ pubdate }}</span><br/>
+    <span class="pubdate">{{ pubdate }}</span>
+    {% if pubdate != moddate %}
+    <br/>
     <small>Last modified:</small><br/>
     <span class="moddate">{{ moddate }}</span>
+    {% endif %}
 </div>
 <article>
-    {% for paragraph in content %}
-        <p>{{ paragraph }} </p>
-    {% endfor %}
+    {% autoescape off %}
+    {{ content }}
+    {% endautoescape %}
 </article>
+{% if base_username == authorname %}
+    <a href="/post/{{ post_id }}">Edit post</a>
+{% endif %}
 {% endblock %}
 
 {% block scripts %}

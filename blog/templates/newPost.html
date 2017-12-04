@@ -5,19 +5,33 @@
 {% block title %}New post{% endblock %}
 
 {% block content %}
+{% if preview %}
+    <h1>Preview</h1>
+    {% autoescape off %}
+    {{ preview }}
+    {% endautoescape %}
+{% endif %}
 <h1>Post new entry</h1>
 <form method="POST">
     {% csrf_token %}
-    <p>Post id: "{{ postID }}"</p>
-    <input type="hidden" name="editID" value="{{ postID }}">
+    <input type="hidden" name="pubType" id="id_pubType" value="publish"/>
+    {% if postID %}
+    <input type="hidden" name="editID" value="{{ postID }}"/>
+    {% endif %}
     <p><label for="id_title">Title</label>
     <input type="text" name="title" id="id_title" value="{{ postTitle }}"/></p>
     <label for="id_content">Blog text</label>
     <textarea name="content" id="id_content">{{ postContent }}</textarea>
-    <button type="submit">Post</button>
+    <div class="flex">
+        <button type="submit" id="publish">Publish</button>
+        {% if not published %}
+        <button type="submit" id="draft">Save draft</button>
+        {% endif %}
+        <button type="submit" id="preview">Preview</button>
+    </div>
 </form>
 {% endblock %}
 
 {% block scripts %}
-
+<script src="{% static 'scripts/newPost.js' %}" defer></script>
 {% endblock %}
