@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<head>
+			<meta name="viewport" content="width=device-width, initial-scale=1">
 			<title>{% block title %}
 			{% endblock %}</title>
 			<script src="{% static 'scripts/jquiry.js' %}" defer></script>
@@ -15,14 +16,18 @@
 				{% block heading %}
 				{% endblock %}
 			</a></h1>
+			{% if base_username %}
+			<span><div>{{ base_username }}</div>
+				  <div><a href="/accounts/logout">log out</a></div></span>
+			{% else %}
+			<span><div>Not logged in</div>
+			      <div><a href="/accounts/login">log in</a></div></span>
+			{% endif %}
+			
 		</div>
-		<div class="content container">
-			<div>
-				<div>
-				{% block content %}
-				{% endblock %}
-				</div>
-			</div>
+		<div class="content">
+			{% block content %}
+			{% endblock %}
 		</div>
 	</body>
 </html>
