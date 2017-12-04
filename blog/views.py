@@ -9,7 +9,8 @@ from . import viewbase
 
 
 def register(request):
-    usererror = emailerror = passworderror = password2error = ""
+    usererror = emailError = passworderror = password2error = ""
+    registerToken = request.POST.get("registerToken", "")
     username = request.POST.get("username", "")
     email = request.POST.get("email", "")
     password = request.POST.get("password", "")
@@ -23,7 +24,7 @@ def register(request):
         usererror = ""
 
     if re.match(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", email) is None:
-        emailerror = "Invalid email adress"
+        emailError = "Invalid email adress"
 
     try:
         password_validation.validate_password(password, username)
@@ -33,17 +34,21 @@ def register(request):
     if password != password_2:
         password2error = "passwords do not match"
 
-    if (usererror == emailerror == passworderror == password2error == "" and
-                "" not in (username, email, password, password_2)):
+    if (usererror == emailError == passworderror == password2error == "" and
+                "" not in (username, email, password, password_2, registerToken)):
         user = authmodels.User.objects.create_user(username, email, password)
         user.save()
         login(request, user)
         return HttpResponseRedirect("/home/registration_completed")
 
+    if registerToken == "":
+        emailError = ""
+        password2error = ""
+
     return render(request, 'registration/register.html',
                   {"username": username,
                    "usererror": usererror,
-                   "emailerror": emailerror,
+                   "emailerror": emailError,
                    "passworderror": passworderror,
                    "password2error": password2error,
                    "email": email,

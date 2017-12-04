@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block heading %}Home{% endblock %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1 class="posttitle">{{ title }}</h1>
+<div class="context">
+    <small>Author:</small><br/>
+    <span class="authorname">{{ authorname }}</span><br/>
+    <small>Date published:</small><br/>
+    <span class="pubdate">{{ pubdate }}</span>
+</div>
+<article>
+    {% for paragraph in content %}
+        <p>{{ paragraph }} </p>
+    {% endfor %}
+</article>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

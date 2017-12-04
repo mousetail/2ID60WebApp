@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -27,12 +26,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
     'blog.apps.BlogConfig',
-	'polls.apps.PollsConfig',
+    'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -71,7 +69,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'HWA2_webapp.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
@@ -82,7 +79,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -92,6 +88,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 6,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -100,7 +99,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
@@ -115,22 +113,20 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 # Mon, 19 Oct 2015 00:53:13 GMT
 
 STATIC_URL = '/static/'
 
-
-#Settings for the Login system
+# Settings for the Login system
 
 LOGIN_REDIRECT_URL = '/'
 
-#Email settings
-EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_SSL = True
-EMAIL_HOST='mail.mousetail.nl'
-EMAIL_HOST_PASSWORD='botpassword'
-EMAIL_HOST_USER='bot@mousetail.nl'
-EMAIL_PORT=465
+EMAIL_HOST = 'mail.mousetail.nl'
+EMAIL_HOST_PASSWORD = 'botpassword'
+EMAIL_HOST_USER = 'bot@mousetail.nl'
+EMAIL_PORT = 465

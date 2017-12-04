@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
@@ -57,3 +57,15 @@ def postEntry(request, pk=None):
                    'postTitle': postTitle,
                    'postContent': postContent,
                    **viewbase.viewbase(request)})
+
+
+def viewEntry(request, num):
+    post = get_object_or_404(BlogPost, id=num)
+    context = {
+        "title": post.blog_title,
+        "authorname": post.author.username,
+        "pubdate": post.date_published.strftime("%d/%m/%Y %I%M%p"),
+        "content": post.blog_content.split("\r\n\r\n"),
+        **viewbase.viewbase(request)
+    }
+    return render(request, "viewPost.html", context)
