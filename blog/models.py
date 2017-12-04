@@ -8,5 +8,5 @@ class BlogPost(models.Model):
     blog_title = models.CharField(max_length=200)
     blog_published = models.BooleanField(default=True)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    date_published = models.DateTimeField(auto_now=True)
-    date_modified = models.DateTimeField(auto_now=True)
+    date_published = models.DateTimeField()
+    date_modified = models.DateTimeField()

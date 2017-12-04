@@ -64,7 +64,8 @@ def viewEntry(request, num):
     context = {
         "title": post.blog_title,
         "authorname": post.author.username,
-        "pubdate": post.date_published.strftime("%d/%m/%Y %I%M%p"),
+        "pubdate": post.date_published.strftime("%d/%m/%Y %I:%M%p"),
+        "moddate": post.date_modified.strftime("%d/%m/%Y %I:%M%p"),
         "content": post.blog_content.split("\r\n\r\n"),
         **viewbase.viewbase(request)
     }
