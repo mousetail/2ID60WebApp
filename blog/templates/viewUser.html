@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block heading %}Home{% endblock %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>{{username}}</h1>
+<div class="pictureframe">
+    {% if photo %}
+    <img src="{{ photo }}">
+    {% else %}
+    <img src=https://i.stack.imgur.com/WmvM0.png">
+    {% endif %}
+    {% if base_username == username %}
+    <form method="POST" id="profilePicForm">
+        {% csrf_token %}
+    </form>
+    <a href="#" id="changeProfilePic">Change profile picture</a>
+    {% endif %}
+</div>
+<h2>Top posts</h2>
+{% for post in posts %}
+<div class="postsummary" id="post_{{ post.3 }}">
+    <span class="authorname">{{ post.1 }}</span>
+    <h1 class="posttitle">{{ post.2 }}</h1>
+    <span class="postcontent">
+    {{ post.0 }}</span>
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'scripts/home.js' %}" defer></script>
+{% if base_username == username %}
+    <script src="{% static 'scripts/viewUser.js' %}" defer></script>
+{% endif %}
+{% endblock %}

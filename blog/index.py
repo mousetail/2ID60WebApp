@@ -1,11 +1,14 @@
+import re
+
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.html import escape
 
-from .models import BlogPost
+from .models import BlogPost, BlogUser
 from . import viewbase
 
 
@@ -31,6 +34,41 @@ def index(request, message=""):
                    "posts": contents,
                    **viewbase.viewbase(request)})
 
+
+def viewUser(request, num):
+    user = get_object_or_404(User, id=num)
+    try:
+        data = BlogUser.objects.get(user=user)
+    except BlogUser.DoesNotExist:
+        if user == request.user:
+            data = BlogUser()
+            data.user = user
+            data.save()
+
+    if user == request.user:
+        photo = request.POST.get("photo", "")
+        if photo != "":
+            if not (photo.startswith("http://") or photo.startswith("https://")):
+                photo = "http://"+photo
+            data.profilePicture = photo
+            data.save()
+
+    posts = BlogPost.objects.filter(
+        date_published__lte=timezone.now()
+    ).filter(
+        blog_published__exact=True
+    ).filter(
+        author__exact=user
+    ).order_by(
+        "date_published"
+    ).all().reverse()[:10]
+
+    contents = [(i.blog_content[:600], i.author.username, i.blog_title, str(i.id)) for i in posts]
+    return render(request, "viewUser.html",
+                  {"username": user.username,
+                   "posts": contents,
+                   "photo": data.profilePicture,
+                   **viewbase.viewbase(request)})
 
 @login_required
 def postEntry(request, pk=None):
@@ -65,7 +103,9 @@ def postEntry(request, pk=None):
             post.date_published = timezone.now()
             published = True
         post.save()
+        postID = post.id
         if postType == "publish":
+            #assert isinstance(postID, int) or (isinstance(postID, str) and re.match(r"^[0-9]+$", postID)), repr(postID)
             return HttpResponseRedirect("/view/" + str(postID))
     elif postID is not None and postType == "publish" or postType == "draft":  # publishing edit
         post = get_object_or_404(BlogPost, id=postID)
@@ -123,6 +163,7 @@ def viewEntry(request, num):
     context = {
         "title": post.blog_title,
         "authorname": post.author.username,
+        "authorid": post.author.id,
         "pubdate": post.date_published.strftime("%d/%m/%Y %I:%M%p"),
         "moddate": post.date_modified.strftime("%d/%m/%Y %I:%M%p"),
         "content": format_paragraph(post.blog_content),
@@ -130,3 +171,5 @@ def viewEntry(request, num):
         **viewbase.viewbase(request)
     }
     return render(request, "viewPost.html", context)
+
+

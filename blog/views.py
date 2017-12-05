@@ -37,6 +37,7 @@ def register(request):
     if (usererror == emailError == passworderror == password2error == "" and
                 "" not in (username, email, password, password_2, registerToken)):
         user = authmodels.User.objects.create_user(username, email, password)
+        user.clean() #fix email
         user.save()
         login(request, user)
         return HttpResponseRedirect("/home/registration_completed")

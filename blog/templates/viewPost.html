@@ -8,7 +8,7 @@
 <h1 class="posttitle">{{ title }}</h1>
 <div class="context">
     <small>Author:</small><br/>
-    <span class="authorname">{{ authorname }}</span><br/>
+    <a class="authorname" href="/user/{{authorid}}">{{ authorname }}</a><br/>
     <small>Date published:</small><br/>
     <span class="pubdate">{{ pubdate }}</span>
     {% if pubdate != moddate %}
