@@ -15,7 +15,7 @@ with open("settings.py", encoding="utf-8") as f:
         if line.startswith("DEBUG = "):
             text2.append("DEBUG = False")
         if line.startswith("STATIC_URL"):
-            text2.append("STATIC_URL = \"2ID60.win.tue.nl/"
+            text2.append("STATIC_URL = \"http://2ID60.win.tue.nl/"
                          "~s162792/djangostatic/\"\n")
         else:
             assert line.endswith("\n")

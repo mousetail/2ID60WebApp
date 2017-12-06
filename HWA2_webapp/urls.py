@@ -20,6 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from blog.views import register
 from blog.index import index, postEntry, viewEntry, viewUser
+from blog.restart import restart
 
 urlpatterns = [
     url(r'^$', index),
@@ -33,4 +34,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/register/', register),
     url(r'^accounts/', include('django.contrib.auth.urls')),
+    url(r'^restart/restart/', restart)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
