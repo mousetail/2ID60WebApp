@@ -111,3 +111,12 @@ textarea {
 .context small {
     color: grey;
 }
+
+.pictureframe {
+    width: 200px;
+}
+
+.pictureframe img {
+    width: 100%;
+    height: auto;
+}
