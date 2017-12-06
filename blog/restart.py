@@ -11,7 +11,8 @@ def restart(request):
     if request.user.is_staff:
         popen = subprocess.Popen(["python3", "update.py"],
                                  stdin=subprocess.DEVNULL,
-                                 stdout=subprocess.DEVNULL)
+                                 stdout=subprocess.DEVNULL,
+                                 start_new_session=True)
         subprocess.Popen(["kill", os.getpid()])
     else:
         raise Http404()
