@@ -13,6 +13,6 @@ def restart(request):
                                  stdin=subprocess.DEVNULL,
                                  stdout=subprocess.DEVNULL,
                                  start_new_session=True)
-        subprocess.Popen(["kill", os.getpid()])
+        subprocess.Popen(["kill", str(os.getpid())])
     else:
         raise Http404()
