@@ -26,7 +26,7 @@ with open("settings.py", "w", encoding="utf-8") as f:
 
 os.chdir("..")
 
-subprocess.call(["python3", "manage.py", "collectstatic"])
+subprocess.call(["python3", "manage.py", "collectstatic", "--noinput"])
 subprocess.call(["python3", "manage.py", "makemigrations"])
 subprocess.call(["python3", "manage.py", "migrate"])
 popen = subprocess.Popen(["python3", "manage.py", "runserver",
