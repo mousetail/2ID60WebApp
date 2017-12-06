@@ -12,6 +12,6 @@ def restart(request):
         popen = subprocess.Popen(["python3", "update.py"],
                                  stdin=subprocess.DEVNULL,
                                  stdout=subprocess.DEVNULL)
-        sys.exit(1)
+        raise KeyboardInterrupt
     else:
         raise Http404()
