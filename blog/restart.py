@@ -1,5 +1,6 @@
 import subprocess
 import time
+import sys
 
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
@@ -11,6 +12,6 @@ def restart(request):
         popen = subprocess.Popen(["python3", "update.py"],
                                  stdin=subprocess.DEVNULL,
                                  stdout=subprocess.DEVNULL)
-        raise KeyboardInterrupt("Restarting server..." + str(time.time()))
+        sys.exit(1)
     else:
         raise Http404()

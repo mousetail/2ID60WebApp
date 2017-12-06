@@ -32,5 +32,4 @@ subprocess.call(["python3", "manage.py", "migrate"])
 popen = subprocess.Popen(["python3", "manage.py", "runserver",
                   "0:8001"],
                          stdout=subprocess.DEVNULL,
-                         stdin=subprocess.DEVNULL,
-                         start_new_session=True)
+                         stdin=subprocess.DEVNULL)
