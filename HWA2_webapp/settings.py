@@ -118,6 +118,7 @@ USE_TZ = True
 # Mon, 19 Oct 2015 00:53:13 GMT
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/home/TUE/s162792/public_html/djangostatic'
 
 # Settings for the Login system
 
