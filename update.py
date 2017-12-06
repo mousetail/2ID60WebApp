@@ -1,6 +1,12 @@
 import subprocess
 import os
+import sys
 import time
+
+if sys.platform != "linux":
+    #make sure this cannot accidentally be triggered on
+    #my windows laptop
+    sys.exit(1)
 
 time.sleep(2)
 pid = os.getpid()
