@@ -16,18 +16,27 @@
 				{% block heading %}
 				{% endblock %}
 			</a></h1>
+		</div>
+		<div class="user-info">
 			{% if base_username %}
-			<span><div>{{ base_username }}</div>
-				  <div><a href="/accounts/logout">log out</a></div></span>
+			<span>
+				<a href="/user/{{ base_user_id}}" class="user-info-link">
+				  <div>{{ base_username }}</div>
+				  <img class="user-info-image" src="{{ base_user_image }}"/>
+				</a>
+				<div><a href="/accounts/logout">log out</a></div></span>
 			{% else %}
 			<span><div>Not logged in</div>
 			      <div><a href="/accounts/login">log in</a></div></span>
 			{% endif %}
-			
 		</div>
 		<div class="content">
 			{% block content %}
 			{% endblock %}
+		</div>
+
+		<div class="footer">
+			Made for the 2017 TU/e 2ID60 Web technology webapp assignment.
 		</div>
 	</body>
 </html>

@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import models as authmodels, password_validation, login
 
-from . import viewbase
+from . import viewbase, models
 
 
 def register(request):
@@ -40,6 +40,10 @@ def register(request):
         user.clean() #fix email
         user.save()
         login(request, user)
+
+        blogUser = models.BlogUser()
+        blogUser.user = user
+        blogUser.save()
         return HttpResponseRedirect("/home/registration_completed")
 
     if registerToken == "":

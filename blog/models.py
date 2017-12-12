@@ -16,4 +16,5 @@ class BlogUser(models.Model):
     user = models.OneToOneField(User,
                                 on_delete=models.CASCADE,
                                 primary_key=True)
-    profilePicture = models.CharField(max_length=300)
+    profilePicture = models.CharField(max_length=300,
+                                      default="https://theamm.org/imgs/profile-pictures/_generic_female.jpg")
