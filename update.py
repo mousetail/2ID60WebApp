@@ -14,8 +14,8 @@ pid = os.getpid()
 subprocess.call(["git", "clean", "-f"])
 subprocess.call(["git", "pull"])
 
-text2=[]
-with open("settings.py", encoding="utf-8") as f:
+text2 = []
+with open("HWA2_webapp/settings.py", encoding="utf-8") as f:
     text = f.readlines()
     for line in text:
         if line.startswith("DEBUG = "):
@@ -27,10 +27,8 @@ with open("settings.py", encoding="utf-8") as f:
             assert line.endswith("\n")
             text2.append(line)
 
-with open("settings.py", "w", encoding="utf-8") as f:
+with open("HWA2_webapp/settings.py", "w", encoding="utf-8") as f:
     f.writelines(text2)
-
-os.chdir("..")
 
 subprocess.call(["python3", "manage.py", "collectstatic", "--noinput"])
 subprocess.call(["python3", "manage.py", "makemigrations"])
