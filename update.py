@@ -11,8 +11,8 @@ if sys.platform != "linux":
 time.sleep(2)
 pid = os.getpid()
 
-psoutput = subprocess.run(["git", "pull"])
-os.chdir("HWA2_webapp")
+subprocess.call(["git", "clean", "-f"])
+subprocess.call(["git", "pull"])
 
 text2=[]
 with open("settings.py", encoding="utf-8") as f:
