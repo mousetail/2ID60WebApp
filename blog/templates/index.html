@@ -14,12 +14,7 @@
 {% endif %}
 
 {% for post in posts %}
-<div class="postsummary" id="post_{{ post.3 }}">
-    <span class="authorname">{{ post.1 }}</span>
-    <h1 class="posttitle">{{ post.2 }}</h1>
-    <span class="postcontent">
-    {{ post.0 }}</span>
-</div>
+    {% include "includes/postSummary.html" %}
 {% endfor %}
 
 {% endblock %}

@@ -131,25 +131,42 @@ textarea {
     padding: 0px 20px 20px 0px;
     height: 125px;
     overflow: hidden;
-    border: 4px solid #ccffcc;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    margin-left: 0px;
-    margin-right: 0px;
-
+    position: relative;
 }
 
-.postsummary .authorname {
+.postsummary::after {
+    content: "...";
+    background-color: #11ffee00; /* 00 - fully transparent */
+    display: block;
+    position: absolute;
+    background-image: url("../images/transition.svg");
+    background-size: 100% 100%;
+    right: 0px;
+    bottom: 0px;
+    text-align: right;
+    width: calc(100% - 100px);
+    height: 20px;
+    padding: 10px;
+}
+
+.postsummary .authorinfo {
     display: block;
     width: 100px;
     float: left;
-    border-right: 2px solid #ccffcc;
-    border-bottom: 2px solid #ccffcc;
-    background-color: #ccffcc;
-    border-bottom-right-radius: 10px;
     padding: 10px;
     margin-right: 10px;
     margin-bottom: 10px;
+    text-align: center;
+}
+
+.postsummary .authorinfo .authorimage {
+    display: block;
+    width: 100px;
+    height: 100px;
+}
+
+.postsummary .authorinfo .authorname {
+    font-style: italic;
 }
 
 .postsummary .posttitle {

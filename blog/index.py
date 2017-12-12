@@ -28,7 +28,8 @@ def index(request, message=""):
     ).filter(blog_published__exact=True).order_by("date_published").all().reverse()[:10]
 
     message = message.replace("_", " ")
-    contents = [(i.blog_content[:600], i.author.username, i.blog_title, str(i.id)) for i in posts]
+    contents = [(i.blog_content[:600], i.author.username, i.blog_title, str(i.id),
+                 BlogUser.objects.get(user=i.author).profilePicture) for i in posts]
     return render(request, "index.html",
                   {"message": message,
                    "posts": contents,
@@ -63,7 +64,8 @@ def viewUser(request, num):
         "date_published"
     ).all().reverse()[:10]
 
-    contents = [(i.blog_content[:600], i.author.username, i.blog_title, str(i.id)) for i in posts]
+    contents = [(i.blog_content[:600], i.author.username, i.blog_title, str(i.id),
+                 BlogUser.objects.get(user=i.author).profilePicture) for i in posts]
     return render(request, "viewUser.html",
                   {"username": user.username,
                    "posts": contents,
