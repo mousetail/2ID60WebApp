@@ -19,8 +19,8 @@ with open("HWA2_webapp/settings.py", encoding="utf-8") as f:
     text = f.readlines()
     for line in text:
         if line.startswith("DEBUG = "):
-            text2.append("DEBUG = False")
-        if line.startswith("STATIC_URL"):
+            text2.append("DEBUG = False\n")
+        elif line.startswith("STATIC_URL"):
             text2.append("STATIC_URL = \"http://2ID60.win.tue.nl/"
                          "~s162792/djangostatic/\"\n")
         else:

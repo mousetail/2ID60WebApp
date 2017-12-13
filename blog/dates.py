@@ -15,6 +15,6 @@ def formatDate(date):
         if dif < DAY * 2:
             return "Yesterday"
         else:
-            return str(dif / DAY)+" days ago"
+            return str(int(dif // DAY))+" days ago"
     else:
         return date.strftime("%d/%m/%Y")
