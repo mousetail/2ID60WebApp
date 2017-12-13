@@ -10,6 +10,7 @@ from django.utils.html import escape
 
 from .models import BlogPost, BlogUser
 from . import viewbase
+from .dates import formatDate
 
 
 def format_paragraph(content, max=-1):
@@ -165,9 +166,10 @@ def viewEntry(request, num):
     context = {
         "title": post.blog_title,
         "authorname": post.author.username,
+        "authorimage": BlogUser.objects.get(user=post.author).profilePicture,
         "authorid": post.author.id,
-        "pubdate": post.date_published.strftime("%d/%m/%Y %I:%M%p"),
-        "moddate": post.date_modified.strftime("%d/%m/%Y %I:%M%p"),
+        "pubdate": formatDate(post.date_published),
+        "moddate": formatDate(post.date_modified),
         "content": format_paragraph(post.blog_content),
         "post_id": num,
         **viewbase.viewbase(request)
