@@ -128,6 +128,13 @@ def postEntry(request, pk=None):
             return HttpResponseRedirect("/view/"+str(post.id))
     elif postType == "preview":  # do nothing, fix preview
         preview = format_paragraph(postContent)
+        try:
+            post = BlogPost.objects.get(id=postID)
+            postTitle = post.blog_title
+            postContent = post.blog_content
+            published = post.blog_published
+        except BlogPost.DoesNotExist:
+            published = False
 
     return render(request, "newPost.html",
                   {'postID': postID or "",

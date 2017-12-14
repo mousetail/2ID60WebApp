@@ -24,7 +24,7 @@
     {% endautoescape %}
 </article>
 {% if base_username == authorname %}
-    <a href="/post/{{ post_id }}">Edit post</a>
+    <a href="/post/{{ post_id }}" class="button">Edit post</a>
 {% endif %}
 <div class="comments">
     <h1>{{ comments|length }} comments</h1>
