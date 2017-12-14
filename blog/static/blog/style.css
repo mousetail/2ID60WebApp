@@ -35,6 +35,7 @@ body {
 
 h1 {
     font-family: 'Ubuntu', sans-serif;
+    color: #444;
     /* font-variant: small-caps; */
 }
 
@@ -51,7 +52,18 @@ textarea {
     padding: 0;
     height: 800px;
     resize: vertical;
+    font-family: inherit;
+    border-style: solid;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-width: 0px 4px 0px 4px;
+    border-color: #7542EE;
+    background-color: #F0F0F0;
 }
+
+/*input[type=text] {
+
+}*/
 
 .flex {
 	display: flex;
@@ -237,4 +249,37 @@ textarea {
     margin: 0px auto;
     width: 100px;
     height: 100px;
+}
+
+.comments {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.comments textarea {
+    height: 200px;
+}
+
+.comment {
+    min-height: 200px;
+}
+
+.comment .commentauthor {
+    width: 150px;
+    float: left;
+    text-align: center;
+    color: grey;
+    font-family: Tahoma, sans-serif;
+}
+
+.comment .commentauthor img {
+    width: 100px;
+    margin: 0px auto;
+    height: 100px;
+}
+
+.commentcontent {
+    font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+    line-height: 1.2;
+    color: #2b2b3b
 }

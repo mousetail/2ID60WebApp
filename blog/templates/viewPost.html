@@ -26,6 +26,19 @@
 {% if base_username == authorname %}
     <a href="/post/{{ post_id }}">Edit post</a>
 {% endif %}
+<div class="comments">
+    <h1>{{ comments|length }} comments</h1>
+    {% for comment in comments %}
+        {% include "includes/comment.html" %}
+    {% endfor %}
+    {% if base_username %}
+        <form method="POST">
+            {% csrf_token %}
+            <textarea name="comment_content"></textarea>
+            <button type="submit">Post comment</button>
+        </form>
+    {% endif %}
+</div>
 {% endblock %}
 
 {% block scripts %}

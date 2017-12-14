@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.html import escape
 
-from .models import BlogPost, BlogUser
+from .models import BlogPost, BlogUser, BlogComment
 from . import viewbase
 from .dates import formatDate
 
@@ -161,8 +161,23 @@ def postEntry(request, pk=None):
 
 def viewEntry(request, num):
     post = get_object_or_404(BlogPost, id=num)
+
     if not post.blog_published and post.author != request.user:
         return HttpResponseForbidden("you can not view this page")
+
+    content = request.POST.get("comment_content", "")  # posting a comment
+    if content != "" and request.user.is_authenticated:  # silently ignore comments from unregisterd users
+        comment = BlogComment()
+        comment.author = request.user
+        comment.content = content
+        comment.date_published = timezone.now()
+        comment.blog = post
+        comment.save()
+
+    comments = [{"author":i.author.username, "content":i.content,
+                 "image": BlogUser.objects.get(user=i.author).profilePicture}
+                for i in BlogComment.objects.all().filter(blog=post)]
+
     context = {
         "title": post.blog_title,
         "authorname": post.author.username,
@@ -172,6 +187,7 @@ def viewEntry(request, num):
         "moddate": formatDate(post.date_modified),
         "content": format_paragraph(post.blog_content),
         "post_id": num,
+        "comments": comments,
         **viewbase.viewbase(request)
     }
     return render(request, "viewPost.html", context)

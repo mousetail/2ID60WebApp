@@ -18,3 +18,11 @@ class BlogUser(models.Model):
                                 primary_key=True)
     profilePicture = models.CharField(max_length=300,
                                       default="https://theamm.org/imgs/profile-pictures/_generic_female.jpg")
+
+
+class BlogComment(models.Model):
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    blog = models.ForeignKey(BlogPost, on_delete=models.CASCADE)
+    content = models.TextField()
+    date_published = models.DateTimeField()
+
