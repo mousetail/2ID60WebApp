@@ -66,6 +66,11 @@ textarea {
     background-color: #F0F0F0;
 }
 
+textarea:focus, input:focus {
+    outline-offset: unset;
+    outline: none;
+}
+
 input[type=text], input[type=password] {
     padding: 8px;
     border-width: 4px 0px 4px 0px;
