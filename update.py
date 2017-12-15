@@ -12,7 +12,8 @@ time.sleep(2)
 pid = os.getpid()
 
 subprocess.call(["git", "clean", "-f"])
-subprocess.call(["git", "pull"])
+subprocess.call(["git", "fetch", "--all"])
+subprocess.call(["git", "reset", "--hard", "origin/master"])
 
 text2 = []
 with open("HWA2_webapp/settings.py", encoding="utf-8") as f:
