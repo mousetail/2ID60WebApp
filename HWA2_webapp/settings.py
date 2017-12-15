@@ -121,6 +121,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/home/TUE/s162792/public_html/djangostatic'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = './media'
 
 # Settings for the Login system
 

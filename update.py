@@ -23,6 +23,11 @@ with open("HWA2_webapp/settings.py", encoding="utf-8") as f:
         elif line.startswith("STATIC_URL"):
             text2.append("STATIC_URL = \"http://2ID60.win.tue.nl/"
                          "~s162792/djangostatic/\"\n")
+        elif line.startswith("MEDIA_URL"):
+            text2.append("MEDIA_URL = \"http://2ID60.win.tue.nl/"
+                         "~s162792/djangomedia/\"\n")
+        elif line.startswith("MEDIA_ROOT"):
+            text2.append("MEDIA_ROOT = \"/home/TUE/s162792/public_html/djangomedia\"\n")
         else:
             assert line.endswith("\n")
             text2.append(line)
