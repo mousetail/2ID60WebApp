@@ -311,3 +311,9 @@ button, a.button {
     line-height: 1.2;
     color: #2b2b3b
 }
+
+.errorlist {
+    font-size: small;
+   color: red;
+   padding-left: 5px;
+}

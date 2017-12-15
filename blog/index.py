@@ -1,4 +1,4 @@
-import re
+import re, uuid
 
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
@@ -11,6 +11,7 @@ from django.utils.html import escape
 from .models import BlogPost, BlogUser, BlogComment
 from . import viewbase
 from .dates import formatDate
+from .forms import ProfilePhotoForm
 
 
 def format_paragraph(content, max=-1):
@@ -30,7 +31,7 @@ def index(request, message=""):
 
     message = message.replace("_", " ")
     contents = [(i.blog_content[:600], i.author.username, i.blog_title, str(i.id),
-                 BlogUser.objects.get(user=i.author).profilePicture) for i in posts]
+                 BlogUser.objects.get(user=i.author).profilePicture.url) for i in posts]
     return render(request, "index.html",
                   {"message": message,
                    "posts": contents,
@@ -47,13 +48,15 @@ def viewUser(request, num):
             data.user = user
             data.save()
 
-    if user == request.user:
-        photo = request.POST.get("photo", "")
-        if photo != "":
-            if not (photo.startswith("http://") or photo.startswith("https://")):
-                photo = "http://"+photo
-            data.profilePicture = photo
+    if request.method == "POST" and user == request.user and len(request.FILES) > 0:
+        form = ProfilePhotoForm(request.POST, request.FILES)
+        assert form.is_bound
+        if form.is_valid():
+            data.profilePicture = form.cleaned_data["image"]
             data.save()
+    else:
+        form = ProfilePhotoForm()
+        assert not form.is_bound
 
     posts = BlogPost.objects.filter(
         date_published__lte=timezone.now()
@@ -66,11 +69,12 @@ def viewUser(request, num):
     ).all().reverse()[:10]
 
     contents = [(i.blog_content[:600], i.author.username, i.blog_title, str(i.id),
-                 BlogUser.objects.get(user=i.author).profilePicture) for i in posts]
+                 BlogUser.objects.get(user=i.author).profilePicture.url) for i in posts]
     return render(request, "viewUser.html",
                   {"username": user.username,
                    "posts": contents,
-                   "photo": data.profilePicture,
+                   "profileform": form,
+                   "photo": data.profilePicture.url if data.profilePicture else "",
                    **viewbase.viewbase(request)})
 
 @login_required
@@ -182,13 +186,13 @@ def viewEntry(request, num):
         comment.save()
 
     comments = [{"author":i.author.username, "content":i.content,
-                 "image": BlogUser.objects.get(user=i.author).profilePicture}
+                 "image": BlogUser.objects.get(user=i.author).profilePicture.url}
                 for i in BlogComment.objects.all().filter(blog=post)]
 
     context = {
         "title": post.blog_title,
         "authorname": post.author.username,
-        "authorimage": BlogUser.objects.get(user=post.author).profilePicture,
+        "authorimage": BlogUser.objects.get(user=post.author).profilePicture.url,
         "authorid": post.author.id,
         "pubdate": formatDate(post.date_published),
         "moddate": formatDate(post.date_modified),

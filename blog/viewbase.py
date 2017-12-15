@@ -6,6 +6,7 @@ def viewbase(request):
         userinfo = models.BlogUser.objects.get(user=request.user)
         return {"base_username": request.user.username,
                 "base_user_id": request.user.id,
-                "base_user_image": userinfo.profilePicture}
+                "base_user_image": userinfo.profilePicture.url if userinfo.profilePicture else
+                ""}
     else:
         return {"base_username": ""}
