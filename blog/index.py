@@ -186,7 +186,8 @@ def viewEntry(request, num):
         comment.save()
 
     comments = [{"author":i.author.username, "content":i.content,
-                 "image": BlogUser.objects.get(user=i.author).profilePicture.url}
+                 "image": BlogUser.objects.get(user=i.author).profilePicture.url,
+                 "postdate": formatDate(i.date_published)}
                 for i in BlogComment.objects.all().filter(blog=post)]
 
     context = {

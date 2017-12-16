@@ -300,8 +300,16 @@ button, a.button {
     width: 150px;
     float: left;
     text-align: center;
-    color: grey;
     font-family: Tahoma, sans-serif;
+}
+
+.comment .commentauthor .dateposted {
+    color: grey;
+    font-size: small;
+}
+
+.comment.commentauthor .authorimage {
+    display: block;
 }
 
 .comment .commentauthor img {
