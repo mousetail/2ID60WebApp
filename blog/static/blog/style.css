@@ -164,6 +164,26 @@ button, a.button {
     height: 80px;
 }
 
+
+@media (max-width: 500px) {
+    .user-info {
+        width: 75px;
+        height: 62px;
+        padding: 40px 20px 40px 40px;
+    }
+
+    .user-info .user-info-image {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 400px) {
+    .content {
+        margin-top: 125px;
+    }
+}
+
 .footer {
     font-size: 9px;
     background-image: url("../images/bottom.svg");
@@ -235,6 +255,7 @@ button, a.button {
 .postsummary .authorinfo {
     display: block;
     width: 100px;
+    height: 105px;;
     float: left;
     padding: 10px;
     margin-right: 10px;
@@ -254,6 +275,21 @@ button, a.button {
 
 .postsummary .posttitle {
     font-size: 1.2em;
+}
+
+@media (max-width:750px) {
+    .postsummary .authorinfo {
+        width: 50px;
+    }
+
+    .postsummary .authorinfo .authorimage {
+        width: 50px;
+        height: 50px;
+    }
+
+    .postsummary::after {
+        width: 100%;
+    }
 }
 
 .context {
@@ -297,10 +333,11 @@ button, a.button {
 }
 
 .comment .commentauthor {
-    width: 150px;
+    width: 100px;
     float: left;
     text-align: center;
     font-family: Tahoma, sans-serif;
+    padding-right: 10px;
 }
 
 .comment .commentauthor .dateposted {
@@ -308,14 +345,22 @@ button, a.button {
     font-size: small;
 }
 
-.comment.commentauthor .authorimage {
+.comment .commentauthor img {
+    width: 75px;
+    margin: 0px auto;
+    height: 75px;
     display: block;
 }
 
-.comment .commentauthor img {
-    width: 100px;
-    margin: 0px auto;
-    height: 100px;
+@media (max-width: 750px) {
+    .comment .commentauthor {
+        width: 75px;
+    }
+
+    .comment .commentauthor img {
+        width: 75px;
+        height: 75px;
+    }
 }
 
 .commentcontent {
