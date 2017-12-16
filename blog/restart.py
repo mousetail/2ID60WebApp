@@ -3,7 +3,7 @@ import time
 import os
 
 from django.contrib.auth.decorators import login_required
-from django.http import Http404
+from django.http import Http404, HttpResponse
 
 
 @login_required
@@ -14,6 +14,6 @@ def restart(request):
                                  stdout=subprocess.DEVNULL,
                                  start_new_session=True)
         subprocess.Popen(["kill", str(os.getpid())])
-        raise Http404()
+        raise HttpResponse("<b>Restart failed</b>")
     else:
         raise Http404()

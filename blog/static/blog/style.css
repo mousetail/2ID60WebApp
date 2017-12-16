@@ -80,6 +80,10 @@ input[type=text], input[type=password] {
     margin: 8px;
 }
 
+input[type=file] {
+    display: none;
+}
+
 button, a.button {
     padding: 8px;
     margin-left: 8px;

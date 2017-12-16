@@ -49,13 +49,13 @@ def viewUser(request, num):
             data.save()
 
     if request.method == "POST" and user == request.user and len(request.FILES) > 0:
-        form = ProfilePhotoForm(request.POST, request.FILES)
+        form = ProfilePhotoForm(request.POST, request.FILES, label_suffix='')
         assert form.is_bound
         if form.is_valid():
             data.profilePicture = form.cleaned_data["image"]
             data.save()
     else:
-        form = ProfilePhotoForm()
+        form = ProfilePhotoForm(label_suffix='')
         assert not form.is_bound
 
     posts = BlogPost.objects.filter(
