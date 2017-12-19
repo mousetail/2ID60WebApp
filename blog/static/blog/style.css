@@ -71,7 +71,7 @@ textarea:focus, input:focus {
     outline: none;
 }
 
-input[type=text], input[type=password] {
+input[type=text], input[type=password], input[type=email] {
     padding: 8px;
     border-width: 4px 0px 4px 0px;
     border-color: #82C5F4;
@@ -255,12 +255,13 @@ button, a.button {
 .postsummary .authorinfo {
     display: block;
     width: 100px;
-    height: 105px;;
+    height: 115px;
     float: left;
     padding: 10px;
     margin-right: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
     text-align: center;
+    overflow: hidden;
 }
 
 .postsummary .authorinfo .authorimage {

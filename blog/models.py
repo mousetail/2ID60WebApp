@@ -16,8 +16,8 @@ class BlogUser(models.Model):
     user = models.OneToOneField(User,
                                 on_delete=models.CASCADE,
                                 primary_key=True)
-    profilePicture = models.ImageField(null=True, upload_to="profilePics")
-
+    profilePicture = models.ImageField(null=True, upload_to="profilePics",
+                                       default="profilePics/orange_rect.png")
 
 
 class BlogComment(models.Model):
