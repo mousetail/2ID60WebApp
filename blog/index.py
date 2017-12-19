@@ -1,6 +1,6 @@
 import re, uuid
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
@@ -12,6 +12,7 @@ from .models import BlogPost, BlogUser, BlogComment
 from . import viewbase
 from .dates import formatDate
 from .forms import ProfilePhotoForm
+from .util import render
 
 
 def format_paragraph(content, max=-1):
@@ -20,22 +21,31 @@ def format_paragraph(content, max=-1):
     for i, par in enumerate(paras):
         if i == max:
             break
-        output += "<p>"+escape(par) + "</p>"
+        output += "<p>" + escape(par) + "</p>"
     return output
 
 
+def format_post_summary(summaries):
+    return [{"summary": i.blog_content[:600], "authorname":i.author.username, "title":i.blog_title,
+             "authorid":i.author.id,
+             "postid":str(i.id), "authorimage": BlogUser.objects.get(user=i.author).profilePicture.url}
+            for i in summaries]
+
+
 def index(request, message=""):
+    format = request.GET.get("format", "html")
+
     posts = BlogPost.objects.filter(
         date_published__lte=timezone.now()
     ).filter(blog_published__exact=True).order_by("date_published").all().reverse()[:10]
 
     message = message.replace("_", " ")
-    contents = [(i.blog_content[:600], i.author.username, i.blog_title, str(i.id),
-                 BlogUser.objects.get(user=i.author).profilePicture.url) for i in posts]
-    return render(request, "index.html",
+    contents = format_post_summary(posts)
+    return render(request, ("index.html" if format == "html" else "REST/index.jsonx"),
                   {"message": message,
-                   "posts": contents,
-                   **viewbase.viewbase(request)})
+                   "posts": contents},
+                  content_type=("text/html" if format == "html" else "application/json")
+                  )
 
 
 def viewUser(request, num):
@@ -68,14 +78,14 @@ def viewUser(request, num):
         "date_published"
     ).all().reverse()[:10]
 
-    contents = [(i.blog_content[:600], i.author.username, i.blog_title, str(i.id),
-                 BlogUser.objects.get(user=i.author).profilePicture.url) for i in posts]
+    contents = format_post_summary(posts)
     return render(request, "viewUser.html",
                   {"username": user.username,
                    "posts": contents,
                    "profileform": form,
                    "photo": data.profilePicture.url if data.profilePicture else "",
-                   **viewbase.viewbase(request)})
+                   })
+
 
 @login_required
 def postEntry(request, pk=None):
@@ -112,7 +122,7 @@ def postEntry(request, pk=None):
         post.save()
         postID = post.id
         if postType == "publish":
-            #assert isinstance(postID, int) or (isinstance(postID, str) and re.match(r"^[0-9]+$", postID)), repr(postID)
+            # assert isinstance(postID, int) or (isinstance(postID, str) and re.match(r"^[0-9]+$", postID)), repr(postID)
             return HttpResponseRedirect("/view/" + str(postID))
     elif postID is not None and postType == "publish" or postType == "draft":  # publishing edit
         post = get_object_or_404(BlogPost, id=postID)
@@ -129,7 +139,7 @@ def postEntry(request, pk=None):
             if postType == "publish":
                 if not post.blog_published:
                     post.date_published = timezone.now()
-            return HttpResponseRedirect("/view/"+str(post.id))
+            return HttpResponseRedirect("/view/" + str(post.id))
     elif postType == "preview":  # do nothing, fix preview
         preview = format_paragraph(postContent)
         try:
@@ -146,7 +156,7 @@ def postEntry(request, pk=None):
                    'postTitle': postTitle,
                    'published': published,
                    'postContent': postContent,
-                   **viewbase.viewbase(request)})
+                   })
 
     """if postID != "":
         try:
@@ -185,9 +195,9 @@ def viewEntry(request, num):
         comment.blog = post
         comment.save()
 
-    comments = [{"author":i.author.username, "content":i.content,
+    comments = [{"author": i.author.username, "content": i.content,
                  "image": BlogUser.objects.get(user=i.author).profilePicture.url,
-                 "postdate": formatDate(i.date_published)}
+                 "postdate_raw": i.date_published}
                 for i in BlogComment.objects.all().filter(blog=post)]
 
     context = {
@@ -195,13 +205,10 @@ def viewEntry(request, num):
         "authorname": post.author.username,
         "authorimage": BlogUser.objects.get(user=post.author).profilePicture.url,
         "authorid": post.author.id,
-        "pubdate": formatDate(post.date_published),
-        "moddate": formatDate(post.date_modified),
+        "pubdate_raw": post.date_published,
+        "moddate_raw": post.date_modified,
         "content": format_paragraph(post.blog_content),
         "post_id": num,
         "comments": comments,
-        **viewbase.viewbase(request)
     }
     return render(request, "viewPost.html", context)
-
-

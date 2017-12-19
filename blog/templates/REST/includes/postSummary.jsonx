@@ -1,0 +1,5 @@
+{"authorname": "{{ post.1 }}",
+ "authorimage": "{{ post.4 }}",
+ "posttitle": "{{ post.5 }}",
+ "summary": "{{ post.0}}"
+ },

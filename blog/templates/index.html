@@ -10,7 +10,10 @@
 {% endif %}
 <h1>Newest blog posts</h1>
 {% if base_username %}
-<a href="/post" class="button">Post new blog</a>
+<div class="flex">
+    <a href="/post" class="button">Post new blog</a>
+    <a href="/api" class="button">API docs</a>
+</div>
 {% endif %}
 
 {% for post in posts %}

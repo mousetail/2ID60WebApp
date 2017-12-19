@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block heading %}API{% endblock %}
+{% block title %}API{% endblock %}
+
+{% block content %}
+    <h1>Using the API</h1>
+    <h2>Basics</h2>
+    <p>Accesing a machine-friendly version of the page on this site is as simple as adding <code>?format=json</code>
+    to the end of a page name. This works for the main page, user pages, and post pages currently. The output will
+    be in json format.</p>
+    <p>Some attributes are common among all API requests. These attributes are prefixed with <code>_base</code>. In
+    the table below the meaning of these attributes is explained.</p>
+    <table>
+        <tr>
+            <td><code>base_username</code></td><td>The username of the authenticated user, if any</td>
+        </tr>
+        <tr>
+            <td><code>base_user_id</code></td></td><td>The user id of the autheticated user, if such a user exists</td>
+        </tr>
+        <tr>
+            <td><code>base_user_image</code></td><td>The link to the profile picture of the authenticated user, if it
+            exists</td>
+        </tr>
+    </table>
+    <h2>Working with post summaries</h2>
+    <p>Both user and index pages are basically sets of post summary objects. The summaries can be accesed with the posts
+    attribute, which represents a collection of pots. The following attributes are available:</p>
+    <table>
+        <tr>
+            <td><code>summary</code></td><td>The first 500 words of the post</td>
+        </tr><tr>
+            <td><code>authorid</code></td><td>The ID of the author</td>
+        </tr><tr>
+            <td><code>authorname</code></td><td>The name of the author</td>
+        </tr><tr>
+            <td><code>authorimage</code></td><td>A link the profile picture of the author</td>
+        </tr>
+        <tr>
+            <td><code>postid</code></td><td>The ID of the linked post</td>
+        </tr>
+    </table>
+    <p>One can easily get the full post contents by going to <code>/post/&lt;postid&gt;/?format=json</code>, and
+    to the author's page by browsing to <code>/user/&lt;authorid&gt;/?format=json</code>.</p>
+    <h2>Post details</h2>
+    <p>The details post gives detailed information about a post, including it's full content and comments. This
+    includes 10 attributes, as seen in the table below:</p>
+    <table>
+        <tr>
+            <td><code>content</code></td><td>The full content of the post, formatted as HTML</td>
+        </tr>
+        <tr>
+            <td><code>title</code></td><td>The title of the post</td>
+        </tr>
+        <tr>
+            <td><code>pubdate</code></td><td>Human readable date when the post was first published, ex: "3 days ago"
+            or "Just now"</td>
+        </tr>
+        <tr>
+            <td><code>pubdate_raw</code></td><td>The raw date when the post was first published,
+            ex "2017-12-05 14:25:27.046899+00:00"</td>
+        </tr>
+        <tr>
+            <td><code>moddate</code></td><td>The date the post was last modified, human readable, ex "Yesterday"</td>
+        </tr>
+        <tr>
+            <td><code>moddate_raw</code></td><td>The raw date when the post was last modified, in long UTC format</td>
+        </tr>
+        <tr>
+            <td><code>authorimage</code></td><td>A link to the profile picture of the author</td>
+        </tr>
+        <tr>
+            <td><code>authorid</code></td><td>The ID of the author of the post</td>
+        </tr>
+        <tr>
+            <td><code>post_id</code></td><td>The ID of the current post</td>
+        </tr>
+        <tr>
+            <td><code>comments</code></td><td>A list of comments for the current post, see below.</td>
+        </tr>
+    </table>
+    <p>
+        Comments is a JSON list of comments. Below is the list of attributes of a comment:
+    </p>
+    <table>
+        <tr>
+            <td><code>Content</code></td><td>The contents of the comment</td>
+        </tr>
+        <tr>
+            <td><code>postdate</code></td><td>Human readable date posted</td>
+        </tr>
+        <tr>
+            <td><code>postdate_raw</code></td><td>the date the comment was posted in raw format</td>
+        </tr><tr>
+            <td><code>author</code></td><td>The username of the author</td>
+        </tr>
+        <tr>
+            <td><code>image</code></td><td>The profile picture of the author</td>
+        </tr>
+    </table>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'scripts/newPost.js' %}" defer></script>
+{% endblock %}

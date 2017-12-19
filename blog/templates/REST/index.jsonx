@@ -1,0 +1,8 @@
+{ "number": 10,
+  "posts": [
+    {% for post in posts %}
+        {% include "REST/includes/postSummary.jsonx" %}
+    {% endfor %}
+]}
+
+

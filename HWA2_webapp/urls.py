@@ -20,6 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.static import serve
 from blog.views import register
+from blog.staticPages import apiPage
 from blog.index import index, postEntry, viewEntry, viewUser
 from blog.restart import restart
 
@@ -30,6 +31,7 @@ urlpatterns = [
     url(r'^view/(?P<num>[0-9]+)/$', viewEntry),
     url(r'^user/(?P<num>[0-9]+)/$', viewUser),
     url(r'^post$', postEntry),
+    url(r'^api$', apiPage),
     url(r'^post/(?P<pk>[0-9]+)/$', postEntry),
     url(r'^polls/', include('polls.urls')),
     url(r'^admin/', admin.site.urls),
