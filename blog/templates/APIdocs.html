@@ -99,7 +99,48 @@
             <td><code>image</code></td><td>The profile picture of the author</td>
         </tr>
     </table>
-
+    <h2>Logging in</h2>
+    <p>Logging in from an API is not trivial as the whole system has CSRF protection. You
+    will need a state-preserving session sytem between requests, to keep cookies.
+    In order to get your first, temporary CSRF token, send a GET request to
+        <code>/accounts/login</code>. The token will be saved in the cookie
+        <code>csrftoken</code>. Every post request must have the header
+        <code>X-CSRFToken</code> set to the token value. Note that the value
+    changes occasionally, so make sure you use the most recent token.</p>
+    <p>
+        In order to actually log in, sent a POST request to
+        <code>/accounts/login</code>, with post arguments <code>username</code>
+        and <code>password</code> as the URLencoded post data. This will
+        generally give you a new, authenticated sessionID and CSRFtoken.
+    </p>
+    <h2>Posting</h2>
+    <p>
+        Posting is done via a POST request to <code>/post?format=json</code>.
+        posting requires valid login cookies, and a valid CSRF header,
+        see above.
+        The following argument are required:
+    </p>
+    <table>
+        <tr><td><code>pubType</code></td><td>Should be "publish"</td></tr>
+        <tr><td><code>title</code></td><td>the title of the blog</td></tr>
+        <tr><td><code>content</code></td><td>The content of the post, line breaks should be windows style, <code>\r\n</code>,
+            a double line break is a paragraph</td></tr>
+    </table>
+    <p>
+        The return value will be a redirect to the view page for the published blog.
+    </p>
+    <p>
+        Currently, there are no countermeasures to prevent spamming, and
+        you could potentially flood the whole site with spam with this method.
+        Please don't.
+    </p>
+    <h2>Posting comments</h2>
+    <p>
+        Comments also require a valid login and CSRF header. POST
+        requests should be sent to <code>/view/&lt;postid&gt;</code>
+        The only required parameter is <code>comment_content</code>.
+        Other properties like date and author are set automatically.
+    </p>
 {% endblock %}
 
 {% block scripts %}
