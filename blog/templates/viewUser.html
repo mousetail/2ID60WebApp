@@ -17,7 +17,6 @@
           {% if not profileform.is_bound %} style="display: none;"{% endif %}>
         {% csrf_token %}
         {{ profileform }}
-        <button type="submit">Change</button>
     </form>
     {% if not profileform.is_bound %}
     <a href="#" id="changeProfilePic" class="button">Edit picture</a>
